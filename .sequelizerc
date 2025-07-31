@@ -1,0 +1,11 @@
+/**
+ * Sequelize CLI configuration file
+ * This file defines the paths for Sequelize components (models, migrations, config)
+ */
+const path = require('path');
+
+module.exports = {
+  config: path.resolve('src', 'config', 'database.js'),
+  'models-path': path.resolve('src', 'models'),
+  'migrations-path': path.resolve('src', 'migrations')
+};
