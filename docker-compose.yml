@@ -9,22 +9,11 @@ services:
       - db
       - rabbitmq
       - redis
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=${DB_USER:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD:-password123}
-      - DB_NAME=${DB_NAME:-mintai_db}
-      - RABBITMQ_HOST=localhost
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USERNAME=${RABBITMQ_USERNAME:-guest}
-      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-guest}
-      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE:-gemini_queue}
-      - REDIS_URL=redis://redis:6379
-      - JWT_SECRET=${JWT_SECRET:-jwt_secret_here}
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-gemini_api_key_here}
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    command: sh -c "npx sequelize-cli db:migrate && npm start"
     restart: unless-stopped
 
   db:
@@ -32,9 +21,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=${DB_USER:-postgres}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-password123}
-      - POSTGRES_DB=${DB_NAME:-mintai_db}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -44,9 +33,11 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME:-guest}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD:-guest}
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   redis:
