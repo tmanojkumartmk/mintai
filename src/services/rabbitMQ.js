@@ -15,7 +15,7 @@ class RabbitMQService {
     const username = process.env.RABBITMQ_USERNAME || 'guest';
     const password = process.env.RABBITMQ_PASSWORD || 'guest';
 
-    return `amqp://${username}:${password}@${host}:${port}`;
+    return `amqps://${process.env.RABBITMQ_USERNAME}:${process.env.RABBITMQ_PASSWORD}@${process.env.RABBITMQ_HOST}/${process.env.RABBITMQ_VHOST}`;
   }
 
   async connect() {

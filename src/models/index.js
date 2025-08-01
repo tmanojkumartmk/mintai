@@ -3,13 +3,14 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const { database, username, password, host, dialect, logging } = require('../config/database.js');
+const { database, username, password, host, dialect, logging, dialectOptions } = require('../config/database.js');
 
 const db = {};
 const sequelize = new Sequelize(database, username, password, {
   host,
   dialect,
-  logging
+  logging,
+  dialectOptions
 });
 
 fs.readdirSync(__dirname)

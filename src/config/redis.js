@@ -32,7 +32,10 @@ if (isTestEnvironment) {
   };
 } else {
   const redisConfig = {
-    url: process.env.REDIS_URL || 'redis://localhost:6379',
+    url: process.env.REDIS_URL,
+    socket: {
+      tls: true
+    }
   };
 
   redisClient = createClient(redisConfig);
