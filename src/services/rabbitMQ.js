@@ -10,11 +10,6 @@ class RabbitMQService {
   }
 
   buildConnectionURL() {
-    const host = process.env.RABBITMQ_HOST || 'localhost';
-    const port = process.env.RABBITMQ_PORT || '5672';
-    const username = process.env.RABBITMQ_USERNAME || 'guest';
-    const password = process.env.RABBITMQ_PASSWORD || 'guest';
-
     return `amqps://${process.env.RABBITMQ_USERNAME}:${process.env.RABBITMQ_PASSWORD}@${process.env.RABBITMQ_HOST}/${process.env.RABBITMQ_VHOST}`;
   }
 

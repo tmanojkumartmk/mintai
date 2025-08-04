@@ -1,6 +1,7 @@
 const express = require('express');
 const authRoutes = require('./routes/auth');
 const chatroomRoutes = require('./routes/chatroom');
+const subscriptionRoutes = require('./routes/subscription');
 const rabbitMQ = require('./services/rabbitMQ');
 
 const app = express();
@@ -27,5 +28,6 @@ if (process.env.NODE_ENV !== 'test') {
 // Routes
 app.use('/auth', authRoutes);
 app.use('/chatroom', chatroomRoutes);
+app.use('/', subscriptionRoutes);
 
 module.exports = app;

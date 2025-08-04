@@ -28,8 +28,8 @@ module.exports = (sequelize, DataTypes) => {
       field: 'phone_number'
     },
     subscriptionTier: {
-      type: DataTypes.ENUM('free', 'basic', 'premium'),
-      defaultValue: 'free',
+      type: DataTypes.ENUM('basic', 'pro'),
+      defaultValue: 'basic',
       allowNull: false,
       field: 'subscription_tier'
     }
